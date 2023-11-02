@@ -86,6 +86,7 @@ void incrementButtonPushCounter() {
 #include "Drops.h"
 #include "Noise.h"
 #include "Snake.h"
+#include "Proximity.h"
 
 // Helper to map XY coordinates to irregular matrix
 uint16_t XY( uint8_t x, uint8_t y)
@@ -176,8 +177,8 @@ bool checkButton() {
 
 void runSound(){
   bool isRunning = true;
-  Sound sound = Sound();
-  while(isRunning) isRunning = sound.runPattern();
+  Proximity proximity = Proximity();
+  while(isRunning) isRunning = proximity.runPattern();
 }
 
 void runRainbow(){

@@ -2,7 +2,7 @@
 // Adapted from https://gist.github.com/Jerware/b82ad4768f9935c8acfccc98c9211111
 
 #include "Arduino.h"
-#include "UltrasonicSensor.h"
+#include "ultrasonicSensor.h"
 
 class Matrix {
   public:
@@ -14,11 +14,12 @@ class Matrix {
     int distance = 0;
     int spawnRate = 0;
     double rateLimit =0;
+    // initilize read distance class
+    ultraSonicSensor sensor; // Create an instance of ReadDistance
 };
 
 bool Matrix::runPattern() {
-  // initilize read distance class
-  ultraSonicSensor sensor; // Create an instance of ReadDistance
+
 
   if(checkButton()) return false;
   if(millis() - previousTime >= 75) {

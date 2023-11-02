@@ -6,9 +6,12 @@ class ultraSonicSensor {
     ultraSonicSensor() {};
         // Constructor (no parameters needed)
     int readDistance();
+    int ultraSonicSensor::mapBrightness(int8_t mapValue);
   private:
     int distance = 0;
     int duration = 0;
+    int brightness = 0;
+
 };
 
 
@@ -29,8 +32,15 @@ duration = pulseIn(ECHO_PIN, HIGH);
 distance = duration * 0.034 / 2;
 
 // Prints the distance on the Serial Monitor
-Serial.print("Distance: ");
+//Serial.print("Distance: ");
 Serial.println(distance);
 return distance;
 }
 
+int ultraSonicSensor::mapBrightness(int8_t mapValue) {
+// map the 0-400 to 0-255sensor value and reverse it for distance
+brightness = map(mapValue, 0, 100, 255, 50);
+Serial.print("brightness: ");
+Serial.println(brightness);
+return brightness;
+}
