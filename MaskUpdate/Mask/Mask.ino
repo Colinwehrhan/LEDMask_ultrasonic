@@ -43,14 +43,14 @@ All out of bounds coordinates map to the first hidden pixel.
 #define COLOR_ORDER       GRB         // Color order of LED string [GRB]
 #define CHIPSET           WS2812B     // LED string type [WS2182B]
 #define BRIGHTNESS        50          // Overall brightness [50]
-#define LAST_VISIBLE_LED  102         // Last LED that's visible [102]
+#define LAST_VISIBLE_LED  25          // Last LED that's visible [102]
 #define MAX_MILLIAMPS     5000        // Max current in mA to draw from supply [500]
 #define SAMPLE_WINDOW     100         // How many ms to sample audio for [100]
 #define DEBOUNCE_MS       20          // Number of ms to debounce the button [20]
 #define LONG_PRESS        500         // Number of ms to hold the button to count as long press [500]
 #define PATTERN_TIME      10          // Seconds to show each pattern on autoChange [10]
-#define kMatrixWidth      15          // Matrix width [15]
-#define kMatrixHeight     11          // Matrix height [11]
+#define kMatrixWidth      5           // Matrix width [15]
+#define kMatrixHeight     8           // Matrix height [11]
 #define NUM_LEDS (kMatrixWidth * kMatrixHeight)                                       // Total number of Leds
 #define MAX_DIMENSION ((kMatrixWidth>kMatrixHeight) ? kMatrixWidth : kMatrixHeight)   // Largest dimension of matrix
 
@@ -99,18 +99,15 @@ uint16_t XY( uint8_t x, uint8_t y)
     return (LAST_VISIBLE_LED + 1);
   }
 
-  const uint8_t XYTable[] = {
-    14,  13,  12,  11,  10,   9,   8,   7,   6,   5,   4,   3,   2,   1,   0,
-    15,  16,  17,  18,  19,  20,  21,  22,  23,  24,  25,  26,  27,  28,  29,
-    44,  43,  42,  41,  40,  39,  38,  37,  36,  35,  34,  33,  32,  31,  30,
-    45,  46, 103, 104, 105, 106, 107,  47, 108, 109, 110, 111, 112,  48,  49,
-    58,  57,  56, 118, 117, 116,  55,  54,  53, 115, 114, 113,  52,  51,  50,
-    59,  60,  61,  62, 119, 120,  63,  64,  65, 121, 122,  66,  67,  68,  69,
-   126,  80,  79,  78, 125,  77,  76,  75,  74,  73, 124,  72,  71,  70, 123,
-   127, 128, 129, 130, 131,  81,  82,  83,  84,  85, 132, 133, 134, 135, 136,
-   144, 143, 142, 141,  92,  91,  90,  89,  88,  87,  86, 140, 139, 138, 137,
-   145, 146, 147, 148, 149,  93,  94,  95,  96,  97, 150, 151, 152, 153, 154,
-   164, 163, 162, 161, 160, 102, 101, 100,  99,  98, 159, 158, 157, 156, 155
+const uint8_t XYTable[] = {
+     0,  29,  30,  39,  17,
+     1,  28,  31,  38,  18,
+     2,  27,  32,  37,  19,
+     3,  26,  33,  36,  20,
+     4,  25,  34,  35,  21,
+     5,  10,  11,  16,  22,
+     6,   9,  12,  15,  23,
+     7,   8,  13,  14,  24
   };
 
   uint8_t i = (y * kMatrixWidth) + x;
