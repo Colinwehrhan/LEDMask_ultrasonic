@@ -2,6 +2,7 @@
 // Adapted from https://gist.github.com/Jerware/b82ad4768f9935c8acfccc98c9211111
 
 #include "Arduino.h"
+#include "UltrasonicSensor.h"
 
 class Matrix {
   public:
@@ -11,9 +12,14 @@ class Matrix {
     void readDistance();
     long previousTime = 0;
     int distance = 0;
+    int spawnRate = 0;
+    double rateLimit =0;
 };
 
 bool Matrix::runPattern() {
+  // initilize read distance class
+  ultraSonicSensor sensor; // Create an instance of ReadDistance
+
   if(checkButton()) return false;
   if(millis() - previousTime >= 75) {
     // Move bright spots downward
@@ -31,10 +37,24 @@ bool Matrix::runPattern() {
       if (leds[i].g != 255) leds[i].nscale8(192); // only fade trail
     }
     // get the distance from ultrasonic
-    readDistance();
+    distance = sensor.readDistance();
+
+    // half it for effect
+    //rateLimit = distance;
+
+    // square root it to increase freq
+    spawnRate = sqrt(distance);
+    //spawnRate = pow(rateLimit, 1.0 / 4.0 );
+
+
+
+    // Prints the distance on the Serial Monitor
+    Serial.print("spawnRate: ");
+    Serial.println(spawnRate);
+
 
     // Spawn new falling spots
-    if (random8(distance) == 0) // lower number == more frequent spawns
+    if (random8(spawnRate) == 0) // lower number == more frequent spawns
     {
       int8_t spawnX = random8(kMatrixWidth);
       leds[XY(spawnX, 0)] = CRGB(175,255,175 );
@@ -44,28 +64,4 @@ bool Matrix::runPattern() {
     previousTime = millis();
   }
   return true;
-}
-
-
-void Matrix::readDistance(){
-int duration = 0;
-
-// Clears the TRIG_PIN
-digitalWrite(TRIG_PIN, LOW);
-delayMicroseconds(2);
-
-// Sets the TRIG_PIN on HIGH state for 10 microseconds
-digitalWrite(TRIG_PIN, HIGH);
-delayMicroseconds(10);
-digitalWrite(TRIG_PIN, LOW);
-
-// Reads the ECHO_PIN, returns the sound wave travel time in microseconds
-duration = pulseIn(ECHO_PIN, HIGH);
-
-// Calculating the distance, should be 2 for accuracy but I increas
-distance = duration * 0.034 / 16;
-
-// Prints the distance on the Serial Monitor
-Serial.print("Distance: ");
-Serial.println(distance);
 }
